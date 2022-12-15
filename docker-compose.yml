@@ -1,0 +1,36 @@
+version: "3"
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - "81:81"
+    volumes:
+      - ./nginx_conf:/etc/nginx/conf.d
+      - static:/usr/src/app/static_root
+      - ./nginx_conf/uwsgi_params:/etc/nginx/uwsgi_params
+      - media:/usr/src/app/media
+    depends_on:
+      - backend
+      - frontend_service
+      - frontend_manage
+      - redis
+
+volumes:
+  static:
+  media:
+  pgdata:

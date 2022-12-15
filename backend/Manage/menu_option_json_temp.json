@@ -1,0 +1,56 @@
+[
+  {
+    "name": "サイズ",
+    "type": "radioBtn",
+    "optionItems": [
+      {
+        "fee": 0,
+        "name": "普通",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      },
+      {
+        "fee": 50,
+        "name": "大きい",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      },
+      {
+        "fee": -50,
+        "name": "小さい",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      }
+    ]
+  },
+  {
+    "name": "トッピング",
+    "type": "checkBox",
+    "optionItems": [
+      {
+        "fee": 50,
+        "name": "チョコ",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      },
+      {
+        "fee": 50,
+        "name": "クッキー",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      },
+      {
+        "fee": 100,
+        "name": "イチゴ",
+        "stock": 0,
+        "sold_out": false,
+        "stock_unlimited": true
+      }
+    ]
+  }
+]
