@@ -2,7 +2,7 @@ version: "3"
 services:
   backend:
     build: ./backend
-    command: bash -c "python manage.py collectstatic --no-input --clear && uwsgi --socket :8000 --module ordeE.wsgi --py-autoreload 1 & daphne -b 0.0.0.0 -p 9000 --ping-interval 10 --ping-timeout 120 ordeE.asgi:application"
+    command: bash -c "python manage.py collectstatic --no-input --clear && uwsgi --socket :8000 --http :8001 --buffer-size 32768 --module ordeE.wsgi --py-autoreload 1  & daphne -b 0.0.0.0 -p 9000 --ping-interval 10 --ping-timeout 120 ordeE.asgi:application"
     expose:
       - 8000
       - 9000
@@ -20,30 +20,14 @@ services:
     build:
       context: ./frontend/service
       args:
-        - AXIOS_BASEURL=http://backend:8000/api
-        - AXIOS_BROWSER_BASEURL=/api
+        - AXIOS_BASEURL=http://backend:8001/
+        - AXIOS_BROWSER_BASEURL=/
     expose:
       - 3000
     command: "npm run dev"
     environment:
-      - AXIOS_BASEURL=http://backend:8000/api
-      - AXIOS_BROWSER_BASEURL=/api
-    volumes:
-      - ./frontend/service:/usr/src/app
-      - /usr/src/app/node_modules
-
-  frontend_manage:
-    build:
-      context: ./frontend/manage
-      args:
-        - AXIOS_BASEURL=http://backend:8000/api
-        - AXIOS_BROWSER_BASEURL=/api
-    expose:
-      - 3001
-    command: "npm run dev"
-    environment:
-      - AXIOS_BASEURL=http://backend:8000/api
-      - AXIOS_BROWSER_BASEURL=/api
+      - AXIOS_BASEURL=http://backend:8001/
+      - AXIOS_BROWSER_BASEURL=/
     volumes:
       - ./frontend/service:/usr/src/app
       - /usr/src/app/node_modules

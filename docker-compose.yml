@@ -27,7 +27,6 @@ services:
     depends_on:
       - backend
       - frontend_service
-      - frontend_manage
       - redis
 
 volumes:

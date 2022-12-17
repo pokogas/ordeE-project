@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   watchers: {
     webpack: {
@@ -11,7 +9,7 @@ export default {
     titleTemplate: '%s - service',
     title: 'service',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -30,6 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/addCommaFilter'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,26 +45,80 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    'cookie-universal-nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dayjs'
   ],
+  dayjs: {
+    locales: ['ja'],
+    defaultLocale: 'ja',
+    defaultTimeZone: 'Asia/Tokyo',
+    plugins: [
+      'utc', // import 'dayjs/plugin/utc'
+      'timezone' // import 'dayjs/plugin/timezone'
+    ]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.AXIOS_BASEURL,
+    browserBaseURL: process.env.AXIOS_BROWSER_BASEURL
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/'
+    },
+    localStorage: false,
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        tokenType: 'JWT',
+        token: {
+          type: 'JWT',
+          property: 'access',
+          maxAge: 60
+        },
+        user: {
+          property: false
+        },
+        refreshToken: {
+          property: 'refresh',
+          data: 'refresh',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        endpoints: {
+          login: {
+            url: 'api/auth/jwt/create/',
+            method: 'post',
+            propertyName: 'access'
+          },
+          refresh: { url: 'api/auth/jwt/refresh/', method: 'post' },
+          logout: {
+            url: 'api/account/logout',
+            method: 'post'
+          },
+          user: {
+            url: 'api/auth/users/me/',
+            method: 'get',
+            propertyName: 'access'
+          }
+        }
+      }
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
-      dark: true,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          background: '#EFEFEF'
         }
       }
     }
@@ -73,5 +126,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    loadingScreen: false
   }
 }
