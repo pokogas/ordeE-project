@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -20,10 +18,6 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  server: {
-    port: 3001,
-    host: '0.0.0.0'
-  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -31,6 +25,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/vue-toastification',
+    '@/plugins/axios',
+    '~plugins/core-components.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,27 +43,78 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    'cookie-universal-nuxt',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api': 'http://127.0.0.1:81'
+  },
+  server: {
+    port: 3001,
+    host: '0.0.0.0'
+  },
+  router: {
+    middleware: ['auth']
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: false
+    },
+    localStorage: false,
+    strategies: {
+      manageAuth: {
+        scheme: 'refresh',
+        tokenType: 'JWT',
+        token: {
+          type: 'JWT',
+          property: 'access',
+          maxAge: 60
+        },
+        user: {
+          property: false
+        },
+        refreshToken: {
+          property: 'refresh',
+          data: 'refresh',
+          maxAge: 60
+        },
+        endpoints: {
+          login: {
+            url: '/api/manage/auth/jwt/create/',
+            method: 'post',
+            propertyName: 'access'
+          },
+          refresh: { url: '/api/auth/jwt/refresh/', method: 'post' },
+          logout: {
+            url: '/api/account/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/api/manage/manage_user_me/',
+            method: 'get',
+            propertyName: 'access'
+          }
+        }
+      }
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          background: '#EFEFEF'
         }
       }
     }
@@ -74,5 +122,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // eslint-disable-next-line no-irregular-whitespace
+    extend　(config, ctx) {
+      config.module.rules.push({
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+          esModule: false
+        }
+      })
+    }
   }
 }
