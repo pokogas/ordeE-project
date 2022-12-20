@@ -24,7 +24,7 @@
       <span>{{ $auth.user.user.last_name }} {{ $auth.user.user.first_name }}</span>
     </div>
     <v-divider class="mx-6" />
-    <div class="pb-16" />
+    <div class="pb-4" />
     <div>
       <v-list nav dense no-action>
         <template v-for="nav_list in nav_lists">
@@ -89,38 +89,39 @@ export default {
         {
           name: 'ホーム',
           icon: 'mdi-home',
-          link: `/shop/${this.$route.params.shop_id}/`
+          link: '/'
         },
         {
-          name: '注文管理',
+          name: 'メンバー管理',
+          icon: 'mdi-account-group',
+          link: '',
+          active: false,
+          lists: [
+            {
+              name: 'メンバー招待',
+              link: '/3'
+            },
+            {
+              name: 'メンバー編集',
+              link: '/3'
+            }
+          ]
+        },
+        {
+          name: '店舗',
           icon: 'mdi-newspaper-variant-multiple-outline',
           link: '',
           active: false,
           lists: [
             {
-              name: 'リアルタイム',
-              link: `/shop/${this.$route.params.shop_id}/order/realtime`
+              name: '新規登録',
+              link: '/3'
             },
             {
-              name: '履歴',
-              link: `/shop/${this.$route.params.shop_id}/order/history`
+              name: '店舗リスト',
+              link: '/3'
             }
           ]
-        },
-        {
-          name: 'フロア管理',
-          icon: 'mdi-floor-plan',
-          link: `/shop/${this.$route.params.shop_id}/floor`
-        },
-        {
-          name: 'メニュー管理',
-          icon: 'mdi-silverware',
-          link: `/shop/${this.$route.params.shop_id}/menu`
-        },
-        {
-          name: '予約管理',
-          icon: 'mdi-book-check-outline',
-          link: `/shop/${this.$route.params.shop_id}/reserve`
         }
       ]
     }

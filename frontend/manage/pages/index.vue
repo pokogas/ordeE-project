@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-h5 font-weight-bold">
-      管理店舗
+      店舗マネージャー
     </div>
     <div class="mb-3" />
     <div>
@@ -24,18 +24,6 @@
       </div>
     </div>
     <div class="mb-9" />
-    <div class="d-flex">
-      <div class="text-h5 font-weight-bold">
-        全店舗
-      </div>
-      <v-switch
-        v-model="allShopView"
-        class="mt-0 ml-6"
-        inset
-        color="green"
-        label="表示"
-      />
-    </div>
     <div v-show="allShopView">
       <div class="d-flex" style="width: 300px">
         <v-text-field
@@ -69,8 +57,7 @@ export default {
   layout: 'control',
   async asyncData ({ $axios }) {
     const manageShop = await $axios.$get('api/manage/shops/?type=userManage')
-    const allShop = await $axios.$get('api/manage/shops/?type=all')
-    return { manageShop, allShop }
+    return { manageShop }
   },
   data () {
     return {
