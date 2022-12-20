@@ -1,9 +1,5 @@
 <template>
-  <v-container fluid>
-    <p class="subtitle-2 font-weight-bold">
-      トップ
-    </p>
-    <div class="mb-6" />
+  <div>
     <div class="text-h5 font-weight-bold">
       管理店舗
     </div>
@@ -14,7 +10,7 @@
           v-for="manageShop in manageShop"
           :key="manageShop.id"
           cols="12"
-          lg="3"
+          lg="4"
           md="6"
           sm="12"
         >
@@ -66,7 +62,7 @@
         </v-row>
       </div>
     </div>
-  </v-container>
+  </div>
 </template>
 <script>
 export default {

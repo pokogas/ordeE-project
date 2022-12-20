@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-1">
+  <v-card class="pa-1 rounded-lg">
     <v-chip
       v-if="roleNum !== null"
       class="ma-2 white--text font-weight-bold"
