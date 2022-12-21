@@ -187,7 +187,6 @@ export default {
         this.customers.max_selection = res.setting.max_visits_count
         this.selected_shop_setting = res.setting
         this.visits_date.data = res.datetime
-        console.log(res.datetime)
       }.bind(this))
     },
     selectShop (shopData) {

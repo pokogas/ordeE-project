@@ -65,7 +65,10 @@ export default {
     baseURL: process.env.AXIOS_BASEURL,
     browserBaseURL: process.env.AXIOS_BROWSER_BASEURL
   },
-
+  router: {
+    middleware: ['auth']
+  },
+  // TODO NavigationDuplicated: Avoided redundant navigation to current location: "/login". customerにログイン後遷移した際にでるerror
   auth: {
     redirect: {
       login: '/login',
