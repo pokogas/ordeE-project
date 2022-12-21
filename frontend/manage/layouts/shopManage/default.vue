@@ -6,7 +6,7 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <ShopManageChat />
+    <!--<ShopManageChat />-->
     <GlobalModal />
   </v-app>
 </template>

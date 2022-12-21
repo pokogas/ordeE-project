@@ -23,33 +23,6 @@
         管理しているショップが見つかりませんでした。
       </div>
     </div>
-    <div class="mb-9" />
-    <div v-show="allShopView">
-      <div class="d-flex" style="width: 300px">
-        <v-text-field
-          label="検索"
-          solo
-          flat
-          dense
-        />
-      </div>
-      <div>
-        <v-row class="pb-3">
-          <v-col
-            v-for="allShop in allShop"
-            :key="allShop.id"
-            cols="12"
-            lg="3"
-            md="6"
-            sm="12"
-          >
-            <nuxt-link :to="`/shop/${allShop.id}`">
-              <HomeShopCard :shop-data="allShop" />
-            </nuxt-link>
-          </v-col>
-        </v-row>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -61,7 +34,6 @@ export default {
   },
   data () {
     return {
-      allShopView: false
     }
   }
 }
