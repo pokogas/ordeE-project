@@ -87,11 +87,11 @@ export default {
       this.form.error.detail = detail
     },
     async login () {
+      const redirectUrl = this.$cookies.get('auth.redirect')
       if (this.$refs.form.validate()) {
         this.usableBtn = false
         try {
           await this.$auth.loginWith('local', { data: this.form })
-          const redirectUrl = this.$cookies.get('auth.redirect')
           // auth.redirectがない場合 ドメイン/ <=にログインする
           return this.$router.replace({ path: redirectUrl })
         } catch (error) {
