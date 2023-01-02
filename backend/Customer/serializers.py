@@ -14,8 +14,7 @@ class CustomerSerializers(serializers.ModelSerializer):
             "id",
             "name",
             "status",
-            "total_fee",
-            "room"
+            "total_fee"
         )
 
 

@@ -110,7 +110,7 @@ def cartItemAllRemove(customer):
 # ws_send_order
 def ws_send_order(customer, oc_id):
     oc_data = {
-        'room': customer.room.name,
+        'room': customer.room_name,
         'oc_id': str(oc_id)
     }
 

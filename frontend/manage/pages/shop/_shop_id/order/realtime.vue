@@ -3,7 +3,7 @@
     <p class="subtitle-2 font-weight-bold">
       注文
     </p>
-    <div class="mb-3" />
+    <div class="mb-2" />
     <div class="text-h5 font-weight-bold">
       リアルタイム注文
     </div>

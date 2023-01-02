@@ -95,6 +95,11 @@ def access_authority_check(executing_permission):
                         raise ShopNotFound
                     except (ShopManagement.DoesNotExist, IndexError):
                         raise ShopNotAccessPermission
+                if manage.role == 0:
+                    try:
+                        Shop.objects.get(id=request.query_params.get("shop_id"))
+                    except (Shop.DoesNotExist, ValidationError):
+                        raise ShopNotFound
             except (ShopManagement.DoesNotExist, IndexError):
                 raise NotAccessPermission
 

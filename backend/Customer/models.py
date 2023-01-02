@@ -14,7 +14,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=20, default="お客")
     status = models.BooleanField(default=True)
     total_fee = models.FloatField(default=0)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, blank=True, null=True)
+    room_name = models.CharField(max_length=20, default="T-Name")
 
     def __str__(self):
         return self.name

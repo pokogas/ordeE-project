@@ -5,7 +5,6 @@ from django.db import models
 from Account.models import UserAccount
 from django.utils import timezone
 
-
 # Shop
 class Shop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -26,6 +25,8 @@ class Room(models.Model):
     )
     status = models.IntegerField(choices=status_count, default=3)
     space = models.IntegerField(default=1)
+    customer = models.ForeignKey('Customer.Customer', on_delete=models.CASCADE, blank=True, null=True)
+    reserve = models.ForeignKey('Reserve.Reserve', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name
