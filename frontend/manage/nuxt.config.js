@@ -6,7 +6,7 @@ export default {
     titleTemplate: '%s - manage',
     title: 'manage',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },

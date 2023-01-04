@@ -20,7 +20,14 @@
         <div class="mb-2" />
       </v-col>
       <v-col cols="12" xl="2" lg="3" md="3" class="d-none d-md-block d-lg-block d-xl-block">
-        こる２
+        <v-window v-model="sidePanelView">
+          <v-window-item :value="1">
+            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" />
+          </v-window-item>
+          <v-window-item :value="2">
+            <shop-manage-floor-waiting-detail v-show="sidePanelView === 2" />
+          </v-window-item>
+        </v-window>
       </v-col>
     </v-row>
   </div>
@@ -35,7 +42,6 @@ export default {
   },
   data () {
     return {
-      right_drawer: false,
       status_data: [
         { title: '空席', asg: 0 },
         { title: '予約', asg: 0 },
@@ -45,7 +51,8 @@ export default {
       waiting_data: [
         { title: '待ち人数', asg: 0 },
         { title: '組', asg: 0 }
-      ]
+      ],
+      sidePanelView: 1
     }
   }
 }
