@@ -12,10 +12,10 @@
           :rotate="-90"
           :size="50"
           :width="4"
-          :value="99"
+          :value="20"
           color="red"
         >
-          <span style="font-size: 12px">60分</span>
+          <span style="font-size: 12px">18分</span>
         </v-progress-circular>
       </div>
     </div>

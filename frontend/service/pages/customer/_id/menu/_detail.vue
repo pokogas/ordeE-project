@@ -37,8 +37,9 @@
                         <v-radio
                           :value="optionItem"
                           color="red"
+                          :disabled="optionItem.sold_out"
                         />
-                        <span class="font-weight-bold">{{ optionItem.name }}</span> <span class="grey--text pl-3">¥ {{ optionItem.fee }}</span>
+                        <span class="font-weight-bold" :class="{'text--disabled': optionItem.sold_out}">{{ optionItem.name }}</span> <span class="grey--text pl-3">¥ {{ optionItem.fee }}</span> <span v-if="optionItem.sold_out" class="red--text pl-3 caption">完売</span>
                       </div>
                     </v-radio-group>
                     <div v-if="option.type === 'checkBox'">
@@ -55,10 +56,11 @@
                           :value="optionItem"
                           color="red"
                           style="margin-top: 0"
+                          :disabled="optionItem.sold_out"
                           @change="menuTotalAmountCalculation"
                         >
                           <template #label>
-                            <span class="font-weight-bold black--text">{{ optionItem.name }}</span> <span class="grey--text pl-3">¥ {{ optionItem.fee }}</span>
+                            <span class="font-weight-bold" :class="{'text--disabled': optionItem.sold_out}">{{ optionItem.name }}</span> <span class="grey--text pl-3">¥ {{ optionItem.fee }}</span> <span v-if="optionItem.sold_out" class="red--text pl-3 caption">完売</span>
                           </template>
                         </v-checkbox>
                       </div>
