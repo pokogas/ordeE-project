@@ -33,6 +33,7 @@
             color="#00BB8D"
             active-class="blue--text darken-3"
             :to="nav_list.link"
+            :class="{'blue--text darken-3 v-list-item--active v-list-item v-list-item--link theme--light': nav_list.same_links.includes($route.path)}"
             @click="menu_close"
           >
             <v-list-item-icon>
@@ -96,12 +97,13 @@ export default {
         {
           name: 'ホーム',
           icon: 'mdi-home',
-          link: `/shop/${this.$route.params.shop_id}/`
+          link: `/shop/${this.$route.params.shop_id}/`,
+          same_links: []
         },
         {
           name: '注文管理',
           icon: 'mdi-newspaper-variant-multiple-outline',
-          link: '',
+          link: `/shop/${this.$route.params.shop_id}/order/`,
           active: false,
           lists: [
             {
@@ -117,17 +119,22 @@ export default {
         {
           name: 'フロア管理',
           icon: 'mdi-floor-plan',
-          link: `/shop/${this.$route.params.shop_id}/floor`
+          link: `/shop/${this.$route.params.shop_id}/floor`,
+          same_links: []
         },
         {
           name: 'メニュー管理',
           icon: 'mdi-silverware',
-          link: `/shop/${this.$route.params.shop_id}/menu`
+          link: `/shop/${this.$route.params.shop_id}/menu/`,
+          same_links: [
+            `/shop/${this.$route.params.shop_id}/menu/manager/`
+          ]
         },
         {
           name: '予約管理',
           icon: 'mdi-book-check-outline',
-          link: `/shop/${this.$route.params.shop_id}/reserve`
+          link: `/shop/${this.$route.params.shop_id}/reserve`,
+          same_links: []
         }
       ]
     }

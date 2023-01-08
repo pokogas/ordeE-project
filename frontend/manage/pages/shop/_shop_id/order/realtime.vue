@@ -7,7 +7,7 @@
     <div class="text-h5 font-weight-bold">
       リアルタイム注文
     </div>
-    <v-tabs v-model="tab" background-color="#EFEFEF">
+    <v-tabs v-model="tab" color="#3344E1" background-color="#EFEFEF">
       <v-tab class="font-weight-bold">
         全体
       </v-tab>
