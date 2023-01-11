@@ -112,7 +112,7 @@ def access_order_history(request):
 @access_authority_check("ACCESS_ROOM")
 def get_rooms(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
-    rooms = Room.objects.filter(shop=shop)
+    rooms = Room.objects.filter(shop=shop).order_by('name')
     serializer = RoomsSerializers(rooms, many=True)
     return Response(serializer.data)
 

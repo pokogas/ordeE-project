@@ -4,6 +4,7 @@ from rest_framework.exceptions import APIException
 from Customer.models import Order
 from Manage.models import Menu, Category, ShopMessage, MessageCategory, ShopManagement, Shop, Room
 from django.contrib.auth import get_user_model
+from Reserve.models import Reserve
 
 
 class NotAccessPermission(APIException):
@@ -151,8 +152,19 @@ class OrderSerializers(serializers.ModelSerializer):
             "cook_status"
         )
 
+# 予約データ
+class ReserveSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Reserve
+        fields = (
+            "id",
+            "reserver_id",
+            "reservation_date"
+        )
+
 # フロアROOMsデータ
 class RoomsSerializers(serializers.ModelSerializer):
+    reserve = ReserveSerializers()
     class Meta:
         model = Room
         fields = (
@@ -160,5 +172,6 @@ class RoomsSerializers(serializers.ModelSerializer):
             "status",
             "space",
             "customer",
-            "reserve"
+            "reserve",
+            "id"
         )
