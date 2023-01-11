@@ -5,6 +5,7 @@ from django.db import models
 from Account.models import UserAccount
 from django.utils import timezone
 
+
 # Shop
 class Shop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -32,7 +33,14 @@ class Room(models.Model):
         return self.name
 
 
+class Waiting(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=True, null=True)
+    space = models.IntegerField(default=1)
+    visits_time = models.DateTimeField()
+
+
 # Menu
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
