@@ -4,10 +4,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Customer.models import OrderConclusion, Order
-from .models import ShopManagement, Shop, ShopMessage, MessageCategory
+from .models import ShopManagement, Shop, ShopMessage, MessageCategory, Room
 from .permission import access_authority_check
 from .serializers import ShopMessageSerializer, MessageCategorySerializer, ManageUserSerializer, ShopSerializer, \
-    ShopManagementSerializer, OrderSerializers
+    ShopManagementSerializer, OrderSerializers, RoomsSerializers
 import datetime
 from django.utils import timezone
 
@@ -52,7 +52,7 @@ def access_home(request):
     return Response({"detail": "authSuccess"})
 
 
-# order_conclusion取得
+# 注文取得
 @api_view(["GET"])
 @access_authority_check("ORDER")
 def get_order(request):
@@ -61,7 +61,7 @@ def get_order(request):
     return Response(serializer.data)
 
 
-# order_conclusion取得
+# 注文取得
 @api_view(["GET"])
 @access_authority_check("ORDER")
 def get_orders(request):
@@ -107,6 +107,16 @@ def access_order_history(request):
     return Response({"detail": "authSuccess"})
 
 
+# フロアROOM取得
+@api_view(["GET"])
+@access_authority_check("ACCESS_ROOM")
+def get_rooms(request):
+    shop = Shop.objects.get(id=request.query_params.get("shop_id"))
+    rooms = Room.objects.filter(shop=shop)
+    serializer = RoomsSerializers(rooms, many=True)
+    return Response(serializer.data)
+
+
 # メニュー
 @api_view(["GET"])
 @access_authority_check("ACCESS_MENU")
@@ -114,7 +124,7 @@ def access_menu(request):
     return Response({"detail": "authSuccess"})
 
 
-# ルーム
+# フロア
 @api_view(["GET"])
 @access_authority_check("ACCESS_ROOM")
 def access_room(request):

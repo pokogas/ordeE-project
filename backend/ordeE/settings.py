@@ -162,7 +162,7 @@ REST_FRAMEWORK = {
 # JWT認証設定
 SIMPLE_JWT = {
     # アクセストークン (本番は1min)
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100),
     # リフレッシュトークン
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     # 認証タイプ

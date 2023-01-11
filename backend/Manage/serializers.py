@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import APIException
 
 from Customer.models import Order
-from Manage.models import Menu, Category, ShopMessage, MessageCategory, ShopManagement, Shop
+from Manage.models import Menu, Category, ShopMessage, MessageCategory, ShopManagement, Shop, Room
 from django.contrib.auth import get_user_model
 
 
@@ -122,6 +122,7 @@ class ShopManagementSerializer(serializers.ModelSerializer):
         model = ShopManagement
         fields = ('role', 'shop', 'id')
 
+
 # オーダーメニューデータ
 class OrderMenuSerializers(serializers.ModelSerializer):
     class Meta:
@@ -130,6 +131,7 @@ class OrderMenuSerializers(serializers.ModelSerializer):
             'id',
             'title',
         )
+
 
 # オーダーデータ
 class OrderSerializers(serializers.ModelSerializer):
@@ -147,4 +149,16 @@ class OrderSerializers(serializers.ModelSerializer):
             "order_time",
             "option",
             "cook_status"
+        )
+
+# フロアROOMsデータ
+class RoomsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = (
+            "name",
+            "status",
+            "space",
+            "customer",
+            "reserve"
         )
