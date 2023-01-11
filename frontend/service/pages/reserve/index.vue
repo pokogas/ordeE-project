@@ -1,135 +1,149 @@
 <template>
   <v-container>
     <div>
-      <div class="pa-4">
+      <v-sheet class="pa-2 rounded-lg" height="100">
         <p class="text-h6 font-weight-bold black--text">
           WEB予約ページ
         </p>
-      </div>
-      <div class="pb-4">
-        <p class="font-weight-bold black--text pb-3">
-          店舗
-        </p>
-        <v-card
-          v-if="selected_shop === null"
-          elevation="0"
-          class="mb-2 py-8 rounded-lg"
-          style="border: solid rgba(86,84,84,0.45) 2px"
-          @click="openShopsModal"
-        >
-          <div style="text-align: center;" class="grey--text lighten-2">
-            店舗を選択
-          </div>
-        </v-card>
-        <MainServiceReserveShopCard v-else :selecting="true" :shop-data="selected_shop" @openShopsModal="openShopsModal" />
-      </div>
-      <div v-if="selected_shop !== null">
-        <div class="pb-4">
-          <p class="pb-3 font-weight-bold black--text">
-            人数
-          </p>
-          <div>
-            <v-chip-group
-              v-model="customers.selection"
-              center-active
-              mandatory
-              class="green--text darken-4--text"
-            >
-              <v-chip
-                v-for="tag in customers.max_selection"
-                :key="tag"
-              >
-                <span class="px-2 font-weight-bold grey--text text--darken-3">{{ tag }} 人</span>
-              </v-chip>
-            </v-chip-group>
-          </div>
-        </div>
-
-        <div class="pb-4">
-          <p class="pb-3 font-weight-bold black--text">
-            ご来店日
-          </p>
-          <div>
-            <v-chip-group
-              v-model="visits_date.selection"
-              center-active
-              class="green--text darken-4--text"
-              change
-            >
-              <v-chip
-                v-for="(value, key , index) in visits_date.data"
-                :key="key"
-                :disabled="dayReservableDecision(value) === 'disabled'"
-                :class="GetBorder(dayReservableDecision(value))"
-                outlined
-                @click="visits_time.data = value; visits_time.selection = undefined"
-              >
-                <span v-if="$dayjs().format('YYYY-MM-DD') === key" :id="index" class="px-1 font-weight-black grey--text text--darken-3">今日</span>
-                <span v-else :id="index" class="px-1 font-weight-black grey--text text--darken-3">{{ $dayjs(key).format("M/D (ddd)") }}</span>
-              </v-chip>
-            </v-chip-group>
-          </div>
-        </div>
-        <div v-if="visits_date.selection !== undefined" class="pb-4">
-          <p class="pb-3 font-weight-bold black--text">
-            ご来店時間
-          </p>
-          <div>
-            <v-chip-group
-              v-model="visits_time.selection"
-              center-active
-              class="green--text darken-4--text"
-            >
-              <v-chip
-                v-for="(value, key , index) in visits_time.data"
-                :key="key"
-                :disabled="timeReservableDecision(value) === 'disabled'"
-                :class="GetBorder(timeReservableDecision(value))"
-                outlined
-              >
-                <span :id="index" class="px-1 font-weight-black grey--text text--darken-3">{{ $dayjs(key).format("HH:mm") }}</span>
-              </v-chip>
-            </v-chip-group>
-          </div>
-        </div>
-        <v-expand-transition>
-          <div v-if="AllSelectCheck">
+      </v-sheet>
+      <div class="pb-4" />
+      <v-row>
+        <v-col cols="12" xl="8" lg="8" md="12" sm="12">
+          <v-sheet class="pa-2 rounded-lg">
             <div class="pb-4">
-              <v-card class="pa-2 rounded-lg" elevation="0">
-                <div class="text-center font-weight-bold grey--text text--darken-1">
-                  <div class="pb-1" style="font-size: 20px">
-                    {{ selected_shop.name }}
-                  </div>
-                  <div class="pb-1" style="font-size: 20px">
-                    {{ customers.selection + 1 }}名様
-                  </div>
-                  <div class="pb-1" style="font-size: 14px">
-                    {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).format("YYYY/MM/DD") }}
-                  </div>
-                  <div class="pb-1" style="font-size: 27px">
-                    {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).format("HH:mm") }} ~ {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).add(10, 'm').format("HH:mm") }}
-                  </div>
+              <p class="font-weight-bold black--text pb-3">
+                店舗
+              </p>
+              <v-card
+                v-if="selected_shop === null"
+                elevation="0"
+                class="mb-2 py-8 rounded-lg"
+                style="border: solid rgba(86,84,84,0.45) 2px"
+                @click="openShopsModal"
+              >
+                <div style="text-align: center;" class="grey--text lighten-2">
+                  店舗を選択
                 </div>
               </v-card>
+              <MainServiceReserveShopCard v-else :selecting="true" :shop-data="selected_shop" @openShopsModal="openShopsModal" />
             </div>
-            <div>
-              <v-btn x-large block class="rounded-lg" color="#52B41A" elevation="0">
-                <span class="white--text font-weight-bold">上記の内容で予約する</span>
-              </v-btn>
+            <div v-if="selected_shop !== null">
+              <div class="pb-4">
+                <p class="pb-3 font-weight-bold black--text">
+                  人数
+                </p>
+                <div>
+                  <v-chip-group
+                    v-model="customers.selection"
+                    center-active
+                    mandatory
+                    class="green--text darken-4--text"
+                  >
+                    <v-chip
+                      v-for="tag in customers.max_selection"
+                      :key="tag"
+                    >
+                      <span class="px-2 font-weight-bold grey--text text--darken-3">{{ tag }} 人</span>
+                    </v-chip>
+                  </v-chip-group>
+                </div>
+              </div>
+
+              <div class="pb-4">
+                <p class="pb-3 font-weight-bold black--text">
+                  ご来店日
+                </p>
+                <div>
+                  <v-chip-group
+                    v-model="visits_date.selection"
+                    center-active
+                    class="green--text darken-4--text"
+                    change
+                  >
+                    <v-chip
+                      v-for="(value, key , index) in visits_date.data"
+                      :key="key"
+                      :disabled="dayReservableDecision(value) === 'disabled'"
+                      :class="GetBorder(dayReservableDecision(value))"
+                      outlined
+                      @click="visits_time.data = value; visits_time.selection = undefined"
+                    >
+                      <span v-if="$dayjs().format('YYYY-MM-DD') === key" :id="index" class="px-1 font-weight-black grey--text text--darken-3">今日</span>
+                      <span v-else :id="index" class="px-1 font-weight-black grey--text text--darken-3">{{ $dayjs(key).format("M/D (ddd)") }}</span>
+                    </v-chip>
+                  </v-chip-group>
+                </div>
+              </div>
+              <div v-if="visits_date.selection !== undefined" class="pb-4">
+                <p class="pb-3 font-weight-bold black--text">
+                  ご来店時間
+                </p>
+                <div>
+                  <v-chip-group
+                    v-model="visits_time.selection"
+                    center-active
+                    class="green--text darken-4--text"
+                  >
+                    <v-chip
+                      v-for="(value, key , index) in visits_time.data"
+                      :key="key"
+                      :disabled="timeReservableDecision(value) === 'disabled'"
+                      :class="GetBorder(timeReservableDecision(value))"
+                      outlined
+                    >
+                      <span :id="index" class="px-1 font-weight-black grey--text text--darken-3">{{ $dayjs(key).format("HH:mm") }}</span>
+                    </v-chip>
+                  </v-chip-group>
+                </div>
+              </div>
             </div>
-          </div>
-        </v-expand-transition>
-      </div>
-      <v-dialog
-        v-model="shopsModal"
-        width="600"
-        content-class="elevation-0"
-      >
-        <div v-for="shop in shops" :key="shop.id">
-          <MainServiceReserveShopCard :selecting="false" :shop-data="shop" @selectShop="selectShop" />
-        </div>
-      </v-dialog>
+          </v-sheet>
+        </v-col>
+        <v-col cols="12" xl="4" lg="4" md="12" sm="12">
+          <v-sheet elevation="0" class="rounded-lg">
+            <div class=" pa-4">
+              <p class="caption">
+                ここに予約の説明を載せます
+              </p>
+            </div>
+            <v-expand-transition>
+              <div v-if="AllSelectCheck">
+                <div class="pb-4 pa-4">
+                  <div class="text-center font-weight-bold grey--text text--darken-1">
+                    <div class="pb-1" style="font-size: 20px">
+                      {{ selected_shop.name }}
+                    </div>
+                    <div class="pb-1" style="font-size: 20px">
+                      {{ customers.selection + 1 }}名様
+                    </div>
+                    <div class="pb-1" style="font-size: 14px">
+                      {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).format("YYYY/MM/DD") }}
+                    </div>
+                    <div class="pb-1" style="font-size: 27px">
+                      {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).format("HH:mm") }} ~ {{ $dayjs(Object.keys(visits_time.data)[visits_time.selection]).add(10, 'm').format("HH:mm") }}
+                    </div>
+                  </div>
+                  <div>
+                    <v-btn large block class="rounded-lg" color="#52B41A" elevation="0">
+                      <span class="white--text font-weight-bold">上記の内容で予約する</span>
+                    </v-btn>
+                  </div>
+                </div>
+              </div>
+            </v-expand-transition>
+          </v-sheet>
+        </v-col>
+      </v-row>
     </div>
+    <v-dialog
+      v-model="shopsModal"
+      width="600"
+      content-class="elevation-0"
+    >
+      <div v-for="shop in shops" :key="shop.id">
+        <MainServiceReserveShopCard :selecting="false" :shop-data="shop" @selectShop="selectShop" />
+      </div>
+    </v-dialog>
   </v-container>
 </template>
 <script>
