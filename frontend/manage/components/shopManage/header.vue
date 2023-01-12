@@ -127,7 +127,7 @@ export default {
           icon: 'mdi-silverware',
           link: `/shop/${this.$route.params.shop_id}/menu/`,
           same_links: [
-            `/shop/${this.$route.params.shop_id}/menu/manager/`
+            `/shop/${this.$route.params.shop_id}/menu/manager`
           ]
         },
         {

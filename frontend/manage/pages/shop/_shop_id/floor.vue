@@ -10,6 +10,21 @@
             <board-items-card :items-data="waiting_data" :cols="[6,6,12,6,6]" />
           </v-col>
         </v-row>
+        <v-sheet max-height="600" class="overflow-auto overflow-x-hidden" color="#EFEFEF">
+          <v-row>
+            <v-col
+              v-for="room in rooms"
+              :key="room.id"
+              cols="12"
+              xl="3"
+              lg="4"
+              md="6"
+              sm="6"
+            >
+              <floor-table-card :table-data="room" table-status="a" :actions="{'name':2}" />
+            </v-col>
+          </v-row>
+        </v-sheet>
         <div class="mb-2" />
       </v-col>
       <v-col cols="12" xl="2" lg="3" md="3" class="d-none d-md-block d-lg-block d-xl-block">
@@ -28,10 +43,9 @@
 <script>
 export default {
   layout: 'shopManage/default',
-  async asyncData ({ $axios, route, redirect }) {
-    await $axios.$get(`api/manage/access_home/?shop_id=${route.params.shop_id}`).catch(function () {
-      redirect('/')
-    })
+  async asyncData ({ $axios, route }) {
+    const rooms = await $axios.$get(`api/manage/floor/get_rooms/?shop_id=${route.params.shop_id}`)
+    return { rooms }
   },
   data () {
     return {

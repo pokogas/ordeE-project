@@ -26,8 +26,8 @@ class Room(models.Model):
     )
     status = models.IntegerField(choices=status_count, default=3)
     space = models.IntegerField(default=1)
-    customer = models.ForeignKey('Customer.Customer', on_delete=models.CASCADE, blank=True, null=True)
-    reserve = models.ForeignKey('Reserve.Reserve', on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey('Customer.Customer', on_delete=models.SET_NULL, blank=True, null=True)
+    reserve = models.ForeignKey('Reserve.Reserve', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.name

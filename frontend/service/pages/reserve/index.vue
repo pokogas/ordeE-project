@@ -124,7 +124,16 @@
                     </div>
                   </div>
                   <div>
-                    <v-btn large block class="rounded-lg" color="#52B41A" elevation="0">
+                    <v-btn
+                      large
+                      block
+                      class="rounded-lg"
+                      color="#52B41A"
+                      elevation="0"
+                      :disabled="usableBtn !== true"
+                      :loading="usableBtn !== true"
+                      @click="reserving"
+                    >
                       <span class="white--text font-weight-bold">上記の内容で予約する</span>
                     </v-btn>
                   </div>
@@ -144,6 +153,36 @@
         <MainServiceReserveShopCard :selecting="false" :shop-data="shop" @selectShop="selectShop" />
       </div>
     </v-dialog>
+    <v-dialog
+      v-model="result.dialog"
+      persistent
+      width="600"
+      content-class="elevation-0"
+    >
+      <v-sheet>
+        <div class="text-center pa-12">
+          <v-icon size="80" color="#80E293">
+            mdi-check-circle-outline
+          </v-icon>
+          <div class="py-2" />
+          <div class="font-weight-bold" style="font-size: 22px">
+            予約を受け付けました。
+          </div>
+          <div class="py-2" />
+          <div>
+            <div>予約時間: {{ $dayjs(result.data.reservation_date).format("HH:mm") }} ~ {{ $dayjs(result.data.reservation_date).add(10, 'm').format("HH:mm") }}</div>
+            <div>来店人数: {{ result.data.reserve_num }}</div>
+            <div>予約ID: <span class="font-weight-bold red--text">{{ result.data.reserver_id }}</span></div>
+            <span class="caption">上記のIDはチェックインする際に使用しますので保存しておいてください。</span><br>
+            <span class="caption">予約IDはマイページからも確認できます。</span>
+          </div>
+          <div class="py-2" />
+          <nuxt-link to="/">
+            ホームに戻る
+          </nuxt-link>
+        </div>
+      </v-sheet>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -157,6 +196,11 @@ export default {
   },
   data () {
     return {
+      usableBtn: true,
+      result: {
+        dialog: false,
+        data: []
+      },
       selected_shop: null,
       selected_shop_setting: null,
       customers: {
@@ -182,6 +226,20 @@ export default {
   created () {
   },
   methods: {
+    reserving () {
+      this.usableBtn = false
+      const data = {
+        shop_id: this.selected_shop.id,
+        reserved_datetime: Object.keys(this.visits_time.data)[this.visits_time.selection],
+        reserve_num: this.customers.selection + 1
+      }
+      this.$axios.post('api/service/reservation/reserving', data).then(function (res) {
+        this.result.data = res.data
+        this.result.dialog = true
+      }.bind(this)).catch(function (res) {
+        location.reload()
+      })
+    },
     openShopsModal () {
       this.shopsModal = true
     },

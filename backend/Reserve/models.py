@@ -16,6 +16,7 @@ class Reserve(models.Model):
     reserve_num = models.IntegerField(default=1)
     reserver_id = models.IntegerField(default=1)
     reserver_account = models.ForeignKey(UserAccount, on_delete=models.CASCADE, blank=True, null=True)
+    active = models.BooleanField(default=True)
 
 
 class ShopSetting(models.Model):

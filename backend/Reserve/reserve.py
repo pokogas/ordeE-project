@@ -92,8 +92,9 @@ class ReserveCalendar:
 
 class ReserveAction:
 
-    def __init__(self, shop_id):
+    def __init__(self, shop_id, reserve_num):
         self.shop_id = shop_id
+        self.reserve_num = reserve_num
 
     def reserving(self, reserved_datetime_str, request_user):
         setting = get_shop_reservation_setting(self.shop_id)
@@ -101,4 +102,5 @@ class ReserveAction:
         if not reservation_check(reserved_datetime, self.shop_id) or not reservation_limit_check(reserved_datetime, setting, self.shop_id):
             print("予約不可")
             return
-        reservation = Reserve.objects.create(reservation_date=reserved_datetime, shop_id=self.shop_id, reserve_num=1, reserver_account=request_user, reserver_id=reservation_id_generation(self.shop_id, reserved_datetime))
+        reservation = Reserve.objects.create(reservation_date=reserved_datetime, shop_id=self.shop_id, reserve_num=self.reserve_num, reserver_account=request_user, reserver_id=reservation_id_generation(self.shop_id, reserved_datetime))
+        return reservation

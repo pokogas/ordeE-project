@@ -38,6 +38,5 @@ def get_shop_reservation_datetime(request):
 @api_view(["POST"])
 def reserving(request):
     data = request.data
-    print(data["shop_id"])
-    reserve.ReserveAction(shop_id=data["shop_id"]).reserving(data["reserved_datetime"], request.user)
-    return Response("a")
+    serializer = Reserve.serializers.ReserveSerializers(reserve.ReserveAction(shop_id=data["shop_id"], reserve_num=data["reserve_num"]).reserving(data["reserved_datetime"], request.user))
+    return Response(serializer.data)

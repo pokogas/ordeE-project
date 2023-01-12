@@ -17,6 +17,7 @@ class ShopSerializers(serializers.ModelSerializer):
             "phone"
         )
 
+
 # カスタマーデータ
 class ShopSettingSerializers(serializers.ModelSerializer):
     class Meta:
@@ -28,4 +29,17 @@ class ShopSettingSerializers(serializers.ModelSerializer):
             "reservation_longest_reception_hours",
             "first_reservation_releasing_time",
             "last_reservation_releasing_time",
+        )
+
+# 予約シリアライザー
+class ReserveSerializers(serializers.ModelSerializer):
+    shop = ShopSerializers
+    class Meta:
+        model = Reserve
+        fields = (
+            "id",
+            "reservation_date",
+            "shop",
+            "reserve_num",
+            "reserver_id"
         )

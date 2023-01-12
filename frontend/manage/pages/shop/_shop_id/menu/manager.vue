@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="pr-3" />
-  </div>
+  <v-responsive :aspect-ratio="16/9">
+    <div>a</div>
+  </v-responsive>
 </template>
 <script>
 export default {
