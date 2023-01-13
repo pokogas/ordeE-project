@@ -61,7 +61,7 @@ export default {
           }
         } else if (res.direction === 'COOK_COMP') {
           this.cookComp(Number(res.order_id))
-          if (this.tab === 1) {
+          if (this.tab === 2) {
             this.order_alarm.play()
           }
         } else if (res.direction === 'COMP') {

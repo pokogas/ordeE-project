@@ -7,7 +7,6 @@
       </v-container>
     </v-main>
     <!--<ShopManageChat />-->
-    <GlobalModal />
   </v-app>
 </template>
 

@@ -16,12 +16,12 @@
               v-for="room in rooms"
               :key="room.id"
               cols="12"
-              xl="3"
-              lg="4"
-              md="6"
+              xl="2"
+              lg="3"
+              md="4"
               sm="6"
             >
-              <floor-table-card :table-data="room" table-status="a" :actions="{'name':2}" />
+              <shop-manage-floor-table-card :table-data="room" table-status="a" :actions="{'name':2}" />
             </v-col>
           </v-row>
         </v-sheet>

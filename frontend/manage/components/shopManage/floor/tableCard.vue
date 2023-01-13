@@ -13,14 +13,6 @@
     <div class="py-8">
       詳細
     </div>
-    <div class="d-flex justify-space-around">
-      <v-btn elevation="0" class="rounded-xl white--text font-weight-bold" small color="#4AB0A0">
-        アクション1
-      </v-btn>
-      <v-btn elevation="0" class="rounded-xl white--text font-weight-bold" small color="#4AB0A0">
-        アクション2
-      </v-btn>
-    </div>
   </v-card>
 </template>
 <script>
@@ -39,7 +31,10 @@ export default {
     getStatusChip (tableData) {
       switch (tableData.status) {
         case 0:
-          return [`予約 #${tableData.reserve.reserver_id}`, '#ea9612']
+          if (tableData.reserve !== null) {
+            return [`予約 #${tableData.reserve.reserver_id}`, '#ea9612']
+          }
+          return ['エラー', '#ff0000']
         case 1:
           return ['空席', '#93DA65']
         case 2:
