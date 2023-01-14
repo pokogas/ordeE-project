@@ -1,13 +1,14 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from Customer.models import OrderConclusion, Order
-from .models import ShopManagement, Shop, ShopMessage, MessageCategory, Room
+from .models import ShopManagement, Shop, ShopMessage, MessageCategory, Room, Waiting
 from .permission import access_authority_check
 from .serializers import ShopMessageSerializer, MessageCategorySerializer, ManageUserSerializer, ShopSerializer, \
-    ShopManagementSerializer, OrderSerializers, RoomsSerializers
+    ShopManagementSerializer, OrderSerializers, RoomsSerializers, WaitingSerializers
 import datetime
 from django.utils import timezone
 
@@ -109,13 +110,21 @@ def access_order_history(request):
 
 # フロアROOM取得
 @api_view(["GET"])
-@access_authority_check("ACCESS_ROOM")
+@access_authority_check("ROOM")
 def get_rooms(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
     rooms = Room.objects.filter(shop=shop).order_by('name')
     serializer = RoomsSerializers(rooms, many=True)
     return Response(serializer.data)
 
+# 待機者リスト取得
+@api_view(["GET"])
+@permission_classes((IsAuthenticatedOrReadOnly,))
+def get_waiting_list(request):
+    shop = Shop.objects.get(id=request.query_params.get("shop_id"))
+    waiting_list = Waiting.objects.filter(shop=shop, visits_time__day=datetime.date.today().day).order_by('-visits_time')
+    serializer = WaitingSerializers(waiting_list, many=True)
+    return Response(serializer.data)
 
 # メニュー
 @api_view(["GET"])

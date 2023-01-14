@@ -15,6 +15,7 @@ urlpatterns = [
     path('order/get_orders/', views.get_orders, name='get_orders'),
     path('order/order_action/', views.order_action, name='order_action'),
     path('floor/get_rooms/', views.get_rooms, name='get_rooms'),
+    path('floor/get_waiting_list/', views.get_waiting_list, name='get_waiting_list'),
     path('access_order_history/', views.access_order_history, name='access_order_history'),
     path('access_menu/', views.access_menu, name='access_menu'),
     path('access_room/', views.access_room, name='access_room'),
