@@ -119,7 +119,6 @@ def get_rooms(request):
 
 # 待機者リスト取得
 @api_view(["GET"])
-@permission_classes((IsAuthenticatedOrReadOnly,))
 def get_waiting_list(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
     waiting_list = Waiting.objects.filter(shop=shop, visits_time__day=datetime.date.today().day).order_by('-visits_time')
