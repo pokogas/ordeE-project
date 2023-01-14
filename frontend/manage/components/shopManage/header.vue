@@ -2,6 +2,7 @@
   <div>
     <v-app-bar
       app
+      style="z-index: 10000"
       dense
       elevation="0"
       color="white"

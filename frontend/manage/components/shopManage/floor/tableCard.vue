@@ -1,18 +1,59 @@
 <template>
   <v-card class="pa-2" elevation="0">
-    <div class="d-flex">
-      <div class="font-weight-bold align-self-center">
-        {{ tableData.name }}
+    <div style="cursor: pointer;" @click="overlay=true">
+      <div class="d-flex">
+        <div class="font-weight-bold align-self-center">
+          {{ tableData.name }}
+        </div>
+        <v-spacer />
+        <v-chip small class="white--text font-weight-medium" :color="getStatusChip(tableData)[1]">
+          {{ getStatusChip(tableData)[0] }}
+        </v-chip>
       </div>
-      <v-spacer />
-      <v-chip small class="white--text font-weight-medium" :color="getStatusChip(tableData)[1]">
-        {{ getStatusChip(tableData)[0] }}
-      </v-chip>
+      <v-divider class="my-1" />
+      <div class="py-8">
+        詳細
+      </div>
     </div>
-    <v-divider class="my-1" />
-    <div class="py-8">
-      詳細
-    </div>
+    <v-overlay
+      :absolute="absolute"
+      :value="overlay"
+      z-index="1000"
+      class="pa-1"
+      @click="overlay=false"
+    >
+      <div>
+        <div v-if="tableData.status === 0">
+          <v-btn class="mb-2" block small color="orange" elevation="0">
+            チェックイン
+          </v-btn>
+          <v-btn class="mb-2" block small color="red" elevation="0">
+            予約席解除
+          </v-btn>
+        </div>
+        <div v-else-if="tableData.status === 1">
+          <v-btn class="mb-2" block small color="orange" elevation="0">
+            利用に変更
+          </v-btn>
+          <v-btn class="mb-2" block small color="red" elevation="0">
+            準備中に変更
+          </v-btn>
+        </div>
+        <div v-else-if="tableData.status === 2">
+          <v-btn class="mb-2" block small color="green" elevation="0">
+            お会計
+          </v-btn>
+          <v-btn class="mb-2" block small color="orange" elevation="0">
+            注文
+          </v-btn>
+        </div>
+        <div v-else-if="tableData.status === 3">
+          <v-btn class="mb-2" block small color="green" elevation="0">
+            空席に変更
+          </v-btn>
+        </div>
+      </div>
+    </v-overlay>
   </v-card>
 </template>
 <script>
@@ -25,6 +66,12 @@ export default {
     actions: {
       type: Object,
       required: true
+    }
+  },
+  data () {
+    return {
+      absolute: true,
+      overlay: false
     }
   },
   methods: {

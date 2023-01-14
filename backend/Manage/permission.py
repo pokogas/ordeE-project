@@ -31,6 +31,7 @@ class ShopNotAccessPermission(APIException):
 PERMISSIONS = [
     "ACCESS_HOME",
     "ORDER",
+    "ACTION_WEBSOCKET",
     "ACCESS_ORDER_REALTIME",
     "ACCESS_ORDER_HISTORY",
     "ACCESS_MENU",

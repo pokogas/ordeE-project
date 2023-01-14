@@ -6,9 +6,10 @@
           <v-col cols="12" xl="3" lg="6" md="6">
             <board-items-card :items-data="status_data" :cols="[6,6,6,3,3]" />
           </v-col>
-          <v-col cols="12" xl="2" lg="4" md="6" @click="right_drawer = true">
+          <v-col cols="12" xl="2" lg="4" md="6">
             <board-items-card :items-data="waiting_data" :cols="[6,6,12,6,6]" />
           </v-col>
+          <v-col class="d-flex align-self-center" cols="12" xl="7" lg="6" md="12" />
         </v-row>
         <v-sheet max-height="600" class="overflow-auto overflow-x-hidden" color="#EFEFEF">
           <v-row>
@@ -60,6 +61,19 @@ export default {
         { title: '組', asg: 0 }
       ],
       sidePanelView: 1
+    }
+  },
+  mounted () {
+    this.statusDataUpdate()
+  },
+  methods: {
+    statusDataUpdate () {
+      for (const i in this.status_data) {
+        this.status_data[Number(i)].asg = this.rooms.filter(u => u.status === Number(i)).length
+      }
+    },
+    settingUpdate () {
+      location.reload()
     }
   }
 }

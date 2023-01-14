@@ -40,9 +40,24 @@
         </v-btn>
       </v-col>
     </v-row>
-    <div class="pt-4" />
+    <div class="pt-1" />
     <!--リスト-->
-    <div>
+    <div v-if="unallocatedType === 'wait'" class="pt-2">
+      <div class="d-flex">
+        <v-select
+          hide-details="auto"
+          flat
+          dense
+          :items="[1,2,3,4,5]"
+          label="来店人数"
+          solo
+        />
+        <v-btn color="teal lighten-3" class="mx-2 white--text" elevation="0">
+          番号札発行
+        </v-btn>
+      </div>
+    </div>
+    <div class="py-3">
       <shop-manage-floor-waiting-card />
     </div>
   </div>
