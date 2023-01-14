@@ -19,7 +19,6 @@
         </v-row>
       </v-container>
     </v-main>
-    <GlobalModal />
   </v-app>
 </template>
 <script>
