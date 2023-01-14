@@ -18,11 +18,11 @@ export const mutations = {
 }
 
 export const actions = {
-  orderConnection ({ commit }, payload) {
+  actionConnection ({ commit }, payload) {
     commit('removeWebSocket')
     commit('setWebSocket', payload)
   },
-  orderDisconnect ({ commit }) {
+  actionDisconnect ({ commit }) {
     commit('removeWebSocket')
   }
 }

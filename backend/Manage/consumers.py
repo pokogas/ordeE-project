@@ -207,7 +207,7 @@ class ActionConsumer(AsyncWebsocketConsumer):
 
         self.shop_id = self.scope['url_route']['kwargs']['shop_id']
         user = self.scope['user']
-        await self.channel_layer.group_add(f'order_{str(self.shop_id)}', self.channel_name)
+        await self.channel_layer.group_add(f'action_{str(self.shop_id)}', self.channel_name)
         self.user_id = user.id
         if self.scope['user'] == "AnonymousUser":
             return self.close()
@@ -229,27 +229,6 @@ class ActionConsumer(AsyncWebsocketConsumer):
             'detail': detail
         }
         await self.channel_layer.group_send(f'action_{str(self.shop_id)}', data)
-
-    async def ORDER(self, data):
-        trans_data = {
-            'direction': "ORDER",
-            'orders': data["orders"]
-        }
-        await self.send(text_data=json.dumps(trans_data))
-
-    async def COOK_COMP(self, data):
-        trans_data = {
-            'direction': "COOK_COMP",
-            'order_id': data["order_id"]
-        }
-        await self.send(text_data=json.dumps(trans_data))
-
-    async def COMP(self, data):
-        trans_data = {
-            'direction': "COMP",
-            'order_id': data["order_id"]
-        }
-        await self.send(text_data=json.dumps(trans_data))
 
     @database_sync_to_async
     def access_authority_check(self):
