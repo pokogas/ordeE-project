@@ -37,6 +37,7 @@ class Waiting(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=True, null=True)
     space = models.IntegerField(default=1)
     visits_time = models.DateTimeField()
+    active = models.BooleanField(default=True)
 
 
 # Menu

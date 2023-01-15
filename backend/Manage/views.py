@@ -121,7 +121,7 @@ def get_rooms(request):
 @api_view(["GET"])
 def get_waiting_list(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
-    waiting_list = Waiting.objects.filter(shop=shop, visits_time__day=datetime.date.today().day).order_by('visits_time')
+    waiting_list = Waiting.objects.filter(shop=shop, visits_time__day=datetime.date.today().day, active=True).order_by('visits_time')
     serializer = WaitingSerializers(waiting_list, many=True)
     return Response(serializer.data)
 

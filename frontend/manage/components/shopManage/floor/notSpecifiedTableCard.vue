@@ -27,7 +27,7 @@
       </div>
       <v-spacer />
       <div class="text-end text-caption">
-        {{ $dayjs(now_time).diff(cardData.visits_time, "m") }} 分
+        <span class="red--text text--darken-4 font-weight-bold">{{ $dayjs(now_time).diff(cardData.visits_time, "m") }}</span> 分
       </div>
     </div>
   </v-card>
