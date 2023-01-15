@@ -31,7 +31,7 @@
       <v-col cols="12" xl="2" lg="3" md="3" class="d-none d-md-block d-lg-block d-xl-block">
         <v-window v-model="sidePanelView">
           <v-window-item :value="1">
-            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" />
+            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" :waiting-list="waitingList" />
           </v-window-item>
           <v-window-item :value="2">
             <shop-manage-floor-waiting-detail v-show="sidePanelView === 2" />
@@ -46,7 +46,8 @@ export default {
   layout: 'shopManage/default',
   async asyncData ({ $axios, route }) {
     const rooms = await $axios.$get(`api/manage/floor/get_rooms/?shop_id=${route.params.shop_id}`)
-    return { rooms }
+    const waitingList = await $axios.$get(`api/manage/floor/get_waiting_list/?shop_id=${route.params.shop_id}`)
+    return { rooms, waitingList }
   },
   data () {
     return {

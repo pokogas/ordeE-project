@@ -28,7 +28,6 @@ export default {
     '@/plugins/vue-toastification',
     '@/plugins/axios'
   ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -45,8 +44,18 @@ export default {
     'cookie-universal-nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dayjs'
   ],
+  dayjs: {
+    locales: ['ja'],
+    defaultLocale: 'ja',
+    defaultTimeZone: 'Asia/Tokyo',
+    plugins: [
+      'utc', // import 'dayjs/plugin/utc'
+      'timezone' // import 'dayjs/plugin/timezone'
+    ]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

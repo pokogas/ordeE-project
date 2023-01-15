@@ -57,17 +57,43 @@
         </v-btn>
       </div>
     </div>
-    <div class="py-3">
-      <shop-manage-floor-waiting-card />
+    <div v-if="unallocatedType === 'wait'">
+      <shop-manage-floor-not-specified-table-card
+        v-for="i in waitingList"
+        ref="card_child"
+        :key="i.id"
+        class="my-3"
+        card-type="wait"
+        :card-data="i"
+      />
+    </div>
+    <div v-if="unallocatedType === 'reserved'" class="py-3">
+      <!--<shop-manage-floor-not-specified-table-card card-type="reserved" card-data="" />-->
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    waitingList: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       detailView: false,
       unallocatedType: 'wait'
+    }
+  },
+  mounted () {
+    setInterval(this.updateTime, 1000)
+  },
+  methods: {
+    updateTime () {
+      for (const i in this.$refs.card_child) {
+        this.$refs.card_child[i].updateTime()
+      }
     }
   }
 }
