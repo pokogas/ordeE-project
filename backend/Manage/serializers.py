@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import APIException
 
+import Account.serializers
 from Customer.models import Order
 from Manage.models import Menu, Category, ShopMessage, MessageCategory, ShopManagement, Shop, Room, Waiting
 from django.contrib.auth import get_user_model
@@ -154,12 +155,17 @@ class OrderSerializers(serializers.ModelSerializer):
 
 # 予約データ
 class ReserveSerializers(serializers.ModelSerializer):
+    reserver_account = Account.serializers.UserSerializer()
     class Meta:
         model = Reserve
         fields = (
             "id",
+            "reservation_date",
+            "staff_publication",
+            "shop",
+            "reserve_num",
             "reserver_id",
-            "reservation_date"
+            "reserver_account"
         )
 
 # フロアROOMsデータ

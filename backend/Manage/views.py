@@ -1,14 +1,14 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Customer.models import OrderConclusion, Order
 from .models import ShopManagement, Shop, ShopMessage, MessageCategory, Room, Waiting
 from .permission import access_authority_check
 from .serializers import ShopMessageSerializer, MessageCategorySerializer, ManageUserSerializer, ShopSerializer, \
-    ShopManagementSerializer, OrderSerializers, RoomsSerializers, WaitingSerializers
+    ShopManagementSerializer, OrderSerializers, RoomsSerializers, WaitingSerializers, ReserveSerializers
+from Reserve.models import Reserve
 import datetime
 from django.utils import timezone
 
@@ -117,12 +117,20 @@ def get_rooms(request):
     serializer = RoomsSerializers(rooms, many=True)
     return Response(serializer.data)
 
-# 待機者リスト取得
+# 待機者リスト取得 (当日)
 @api_view(["GET"])
 def get_waiting_list(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
     waiting_list = Waiting.objects.filter(shop=shop, visits_time__day=datetime.date.today().day, active=True).order_by('visits_time')
     serializer = WaitingSerializers(waiting_list, many=True)
+    return Response(serializer.data)
+
+# 予約者リスト取得 (当日) // TODO 権限つけろ get_waiting_listも
+@api_view(["GET"])
+def get_today_reserve_list(request):
+    shop = Shop.objects.get(id=request.query_params.get("shop_id"))
+    reserve_list = Reserve.objects.filter(shop=shop, reservation_date__day=datetime.date.today().day, active=True).order_by('reservation_date')
+    serializer = ReserveSerializers(reserve_list, many=True)
     return Response(serializer.data)
 
 # メニュー

@@ -1,23 +1,11 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <div class="pa-3 d-flex">
       <div>
         <div class="text-body-2 font-weight-bold">
-          <span v-if="cardType === `wait`">番号札待機</span>
-          <span v-else>酒井 将弘 様</span>
+          <span>番号札待機</span>
         </div>
         <span class="text-caption font-weight-bold grey--text"># {{ cardData.id }}</span>
-      </div>
-      <div v-if="cardType === `reserved`" class="ml-auto">
-        <v-progress-circular
-          :rotate="-90"
-          :size="50"
-          :width="4"
-          :value="20"
-          color="red"
-        >
-          <span style="font-size: 12px">18分</span>
-        </v-progress-circular>
       </div>
     </div>
     <v-divider />
@@ -35,10 +23,6 @@
 <script>
 export default {
   props: {
-    cardType: {
-      type: String,
-      required: true
-    },
     cardData: {
       type: Object,
       required: true

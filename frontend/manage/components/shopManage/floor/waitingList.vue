@@ -68,7 +68,14 @@
       />
     </div>
     <div v-if="unallocatedType === 'reserved'" class="py-3">
-      <!--<shop-manage-floor-not-specified-table-card card-type="reserved" card-data="" />-->
+      <shop-manage-floor-reserve-not-specified-table-card
+        v-for="i in reserveList"
+        ref="reserve_card_child"
+        :key="i.id"
+        card-type="reserved"
+        :card-data="i"
+        class="my-3"
+      />
     </div>
   </div>
 </template>
@@ -76,6 +83,10 @@
 export default {
   props: {
     waitingList: {
+      type: Array,
+      required: true
+    },
+    reserveList: {
       type: Array,
       required: true
     }
@@ -93,6 +104,9 @@ export default {
     updateTime () {
       for (const i in this.$refs.card_child) {
         this.$refs.card_child[i].updateTime()
+      }
+      for (const i in this.$refs.reserve_card_child) {
+        this.$refs.reserve_card_child[i].updateTime()
       }
     }
   }
