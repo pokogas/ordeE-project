@@ -31,7 +31,7 @@
       <v-col cols="12" xl="2" lg="3" md="3" class="d-none d-md-block d-lg-block d-xl-block">
         <v-window v-model="sidePanelView">
           <v-window-item :value="1">
-            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" :waiting-list="waitingList" :reserve-list="reserveList" />
+            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" :waiting-list="waitingList" :reserve-list="reserveList" :space-max="getSpaceRange('max')" />
           </v-window-item>
           <v-window-item :value="2">
             <shop-manage-floor-waiting-detail v-show="sidePanelView === 2" />
@@ -72,6 +72,17 @@ export default {
     statusDataUpdate () {
       for (const i in this.status_data) {
         this.status_data[Number(i)].asg = this.rooms.filter(u => u.status === Number(i)).length
+      }
+    },
+    getSpaceRange (type) {
+      const space = this.rooms.map(function (p) {
+        return p.space
+      })
+      switch (type) {
+        case 'max':
+          return Math.max.apply(null, space)
+        case 'min':
+          return Math.min.apply(null, space)
       }
     },
     settingUpdate () {

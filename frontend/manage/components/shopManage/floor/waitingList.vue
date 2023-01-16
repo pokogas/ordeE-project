@@ -45,14 +45,21 @@
     <div v-if="unallocatedType === 'wait'" class="pt-2">
       <div class="d-flex">
         <v-select
+          v-model="waitingSpaceCount"
           hide-details="auto"
           flat
           dense
-          :items="[1,2,3,4,5]"
+          :items="Array.from(Array.from({length: spaceMax}, (_, i) => i+1))"
           label="来店人数"
           solo
-        />
-        <v-btn color="teal lighten-3" class="mx-2 white--text" elevation="0">
+        >
+          <template #selection="{ item }">
+            <div class="grey--text ">
+              <span class="font-weight-medium">{{ item }}</span><span>&nbsp;名様</span>
+            </div>
+          </template>
+        </v-select>
+        <v-btn color="teal lighten-3" class="mx-2 white--text" elevation="0" :disabled="waitingSpaceCount === null" @click="waitingTicketCreate()">
           番号札発行
         </v-btn>
       </div>
@@ -89,10 +96,15 @@ export default {
     reserveList: {
       type: Array,
       required: true
+    },
+    spaceMax: {
+      type: Number,
+      required: true
     }
   },
   data () {
     return {
+      waitingSpaceCount: null,
       detailView: false,
       unallocatedType: 'wait'
     }
@@ -101,6 +113,9 @@ export default {
     setInterval(this.updateTime, 1000)
   },
   methods: {
+    waitingTicketCreate () {
+      this.$axios.post(`api/manage/floor/create_waiting_ticket/?shop_id=${this.$route.params.shop_id}&space=${this.waitingSpaceCount}`)
+    },
     updateTime () {
       for (const i in this.$refs.card_child) {
         this.$refs.card_child[i].updateTime()

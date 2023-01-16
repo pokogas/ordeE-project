@@ -125,7 +125,16 @@ def get_waiting_list(request):
     serializer = WaitingSerializers(waiting_list, many=True)
     return Response(serializer.data)
 
-# 予約者リスト取得 (当日) // TODO 権限つけろ get_waiting_listも
+# 待機者チケットさ作成
+@api_view(["POST"])
+def waiting_ticket_create(request):
+    shop = Shop.objects.get(id=request.query_params.get("shop_id"))
+    space = request.query_params.get("space")
+    waiting = Waiting.objects.create(shop=shop, space=int(space), visits_time=timezone.now())
+    serializer = WaitingSerializers(waiting)
+    return Response(serializer.data)
+
+# 予約者リスト取得 (当日) // TODO 権限つけろ 上2こも
 @api_view(["GET"])
 def get_today_reserve_list(request):
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))

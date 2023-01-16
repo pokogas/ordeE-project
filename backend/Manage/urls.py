@@ -16,6 +16,7 @@ urlpatterns = [
     path('order/order_action/', views.order_action, name='order_action'),
     path('floor/get_rooms/', views.get_rooms, name='get_rooms'),
     path('floor/get_waiting_list/', views.get_waiting_list, name='get_waiting_list'),
+    path('floor/create_waiting_ticket/', views.waiting_ticket_create, name='create_waiting_ticket'),
     path('floor/get_today_reserve_list/', views.get_today_reserve_list, name='get_today_reserve_list'),
     path('access_order_history/', views.access_order_history, name='access_order_history'),
     path('access_menu/', views.access_menu, name='access_menu'),
