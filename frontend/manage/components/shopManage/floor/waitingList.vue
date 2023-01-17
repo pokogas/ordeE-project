@@ -42,7 +42,7 @@
     </v-row>
     <div class="pt-1" />
     <!--リスト-->
-    <div v-if="unallocatedType === 'wait'" class="pt-2">
+    <div v-if="unallocatedType === 'wait'" class="pt-2 pb-3">
       <div class="d-flex">
         <v-select
           v-model="waitingSpaceCount"
@@ -64,25 +64,27 @@
         </v-btn>
       </div>
     </div>
-    <div v-if="unallocatedType === 'wait'">
-      <shop-manage-floor-not-specified-table-card
-        v-for="i in waitingList"
-        ref="card_child"
-        :key="i.id"
-        class="my-3"
-        card-type="wait"
-        :card-data="i"
-      />
-    </div>
-    <div v-if="unallocatedType === 'reserved'" class="py-3">
-      <shop-manage-floor-reserve-not-specified-table-card
-        v-for="i in reserveList"
-        ref="reserve_card_child"
-        :key="i.id"
-        card-type="reserved"
-        :card-data="i"
-        class="my-3"
-      />
+    <div class="overflow-x-hidden" :style="`max-height: ${$vuetify.breakpoint.height -200}px`">
+      <div v-if="unallocatedType === 'wait'">
+        <shop-manage-floor-not-specified-table-card
+          v-for="i in waitingList"
+          ref="card_child"
+          :key="i.id"
+          class="my-3"
+          card-type="wait"
+          :card-data="i"
+        />
+      </div>
+      <div v-if="unallocatedType === 'reserved'" class="py-3">
+        <shop-manage-floor-reserve-not-specified-table-card
+          v-for="i in reserveList"
+          ref="reserve_card_child"
+          :key="i.id"
+          card-type="reserved"
+          :card-data="i"
+          class="my-3"
+        />
+      </div>
     </div>
   </div>
 </template>

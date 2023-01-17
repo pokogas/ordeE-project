@@ -12,7 +12,7 @@
         OrdeE <span class="subtitle-1">management</span>
       </v-toolbar-title>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" disable-resize-watcher class="hidden-lg-and-up" app>
+    <v-navigation-drawer v-model="drawer" disable-resize-watcher class="hidden-lg-and-up" app height="100%">
       <v-list-item class="px-0">
         <v-list-item-content>
           <v-list-item>
