@@ -6,7 +6,6 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <shop-manage-action />
     <!--<ShopManageChat />-->
   </v-app>
 </template>

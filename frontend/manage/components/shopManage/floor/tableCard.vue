@@ -33,13 +33,16 @@
         </div>
         <div v-else-if="tableData.status === 1">
           <v-btn class="mb-2" block small color="orange" elevation="0">
-            利用に変更
+            利用開始
           </v-btn>
           <v-btn class="mb-2" block small color="red" elevation="0">
             準備中に変更
           </v-btn>
         </div>
         <div v-else-if="tableData.status === 2">
+          <v-btn class="mb-2" block small color="blue" elevation="0">
+            案内票発行
+          </v-btn>
           <v-btn class="mb-2" block small color="green" elevation="0">
             お会計
           </v-btn>
@@ -60,10 +63,6 @@
 export default {
   props: {
     tableData: {
-      type: Object,
-      required: true
-    },
-    actions: {
       type: Object,
       required: true
     }

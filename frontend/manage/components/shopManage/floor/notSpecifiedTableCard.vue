@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0">
+  <v-card elevation="0" style="cursor: pointer;">
     <div class="pa-3 d-flex">
       <div>
         <div class="text-body-2 font-weight-bold">

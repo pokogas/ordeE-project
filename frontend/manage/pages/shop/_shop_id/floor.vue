@@ -14,27 +14,50 @@
         <v-sheet max-height="600" class="overflow-auto overflow-x-hidden" color="#EFEFEF">
           <v-row>
             <v-col
-              v-for="room in rooms"
-              :key="room.id"
+              v-for="(room, i) in rooms"
+              :key="i"
               cols="12"
               xl="2"
               lg="3"
               md="4"
               sm="6"
             >
-              <shop-manage-floor-table-card :table-data="room" table-status="a" :actions="{'name':2}" />
+              <span @click="room.status = 1">{{ room.space }}</span>
+              <shop-manage-floor-table-card :table-data="room" table-status="a" />
             </v-col>
           </v-row>
         </v-sheet>
         <div class="mb-2" />
       </v-col>
-      <v-col cols="12" xl="2" lg="3" md="3" class="d-none d-md-block d-lg-block d-xl-block">
+      <v-col
+        cols="12"
+        xl="2"
+        lg="3"
+        md="3"
+        class="d-none d-md-block d-lg-block d-xl-block"
+        style="background-color: #e0e0e0"
+        :style="`height: ${$vuetify.breakpoint.height -50}px`"
+      >
         <v-window v-model="sidePanelView">
           <v-window-item :value="1">
-            <shop-manage-floor-waiting-list v-show="sidePanelView === 1" :waiting-list="waitingList" :reserve-list="reserveList" :space-max="getSpaceRange('max')" />
+            <shop-manage-floor-waiting-list
+              v-show="sidePanelView === 1"
+              :waiting-list="waitingList"
+              :reserve-list="reserveList"
+              :space-max="getSpaceRange('max')"
+              @openDetailPanel="detailPanelAction"
+            />
           </v-window-item>
           <v-window-item :value="2">
-            <shop-manage-floor-waiting-detail v-show="sidePanelView === 2" />
+            <v-fade-transition>
+              <shop-manage-floor-waiting-detail
+                v-show="sidePanelView === 2"
+                :detail-data="detail.data"
+                :detail-type="detail.type"
+                :rooms="rooms"
+                @closeDetailPanel="detailPanelAction"
+              />
+            </v-fade-transition>
           </v-window-item>
         </v-window>
       </v-col>
@@ -62,13 +85,43 @@ export default {
         { title: '待ち人数', asg: 0 },
         { title: '組', asg: 0 }
       ],
-      sidePanelView: 1
+      sidePanelView: 1,
+      detail: {
+        data: [],
+        type: ''
+      }
+    }
+  },
+  watch: {
+    rooms: {
+      handler () {
+        this.statusDataUpdate()
+      },
+      deep: true
     }
   },
   mounted () {
     this.statusDataUpdate()
   },
   methods: {
+    detailPanelAction (...args) {
+      switch (args[0]) {
+        case 'close':
+          this.sidePanelView = 1
+          this.detail.data = {}
+          this.detail.type = ''
+          break
+        case 'open':
+          this.sidePanelView = 2
+          this.detail.data = args[1]
+          this.detail.type = args[2]
+          break
+      }
+      this.$emit('openDetail')
+    },
+    openDetail () {
+      this.sidePanelView = 2
+    },
     statusDataUpdate () {
       for (const i in this.status_data) {
         this.status_data[Number(i)].asg = this.rooms.filter(u => u.status === Number(i)).length

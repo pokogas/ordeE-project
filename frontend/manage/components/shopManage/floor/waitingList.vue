@@ -17,7 +17,7 @@
           :class="{'green lighten-1 white--text' : unallocatedType === 'wait', 'white grey--text lighten-4--text' : unallocatedType !== 'wait'}"
           @click="unallocatedType='wait'"
         >
-          待機
+          待機 <span>({{ waitingList.length }})</span>
         </v-btn>
       </v-col>
       <v-col
@@ -36,7 +36,7 @@
           :class="{'green lighten-1 white--text' : unallocatedType === 'reserved', 'white grey--text lighten-4--text' : unallocatedType !== 'reserved'}"
           @click="unallocatedType='reserved'"
         >
-          予約
+          予約 <span>({{ reserveList.length }})</span>
         </v-btn>
       </v-col>
     </v-row>
@@ -71,8 +71,8 @@
           ref="card_child"
           :key="i.id"
           class="my-3"
-          card-type="wait"
           :card-data="i"
+          @click.native="openDetail(i, 'wait')"
         />
       </div>
       <div v-if="unallocatedType === 'reserved'" class="py-3">
@@ -80,9 +80,9 @@
           v-for="i in reserveList"
           ref="reserve_card_child"
           :key="i.id"
-          card-type="reserved"
           :card-data="i"
           class="my-3"
+          @click.native="openDetail(i, 'reserved')"
         />
       </div>
     </div>
@@ -115,6 +115,9 @@ export default {
     setInterval(this.updateTime, 1000)
   },
   methods: {
+    openDetail (data, type) {
+      this.$emit('openDetailPanel', 'open', data, type)
+    },
     waitingTicketCreate () {
       this.$axios.post(`api/manage/floor/create_waiting_ticket/?shop_id=${this.$route.params.shop_id}&space=${this.waitingSpaceCount}`)
     },
