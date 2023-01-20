@@ -1,6 +1,7 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from Customer.models import OrderConclusion, Order
@@ -14,6 +15,7 @@ from django.utils import timezone
 
 User = get_user_model()
 
+# TODO @csrf_protect csrfを有効にする
 
 # メッセージカテゴリー
 @api_view(["GET"])
@@ -86,7 +88,9 @@ def ws_send_order_action(shop_id, order_id, direction):
 
 @api_view(["POST"])
 @access_authority_check("ORDER")
+@csrf_protect
 def order_action(request):
+    print(request.headers)
     shop = Shop.objects.get(id=request.query_params.get("shop_id"))
     order_id = request.query_params.get("order_id")
     direction = request.query_params.get("direction")

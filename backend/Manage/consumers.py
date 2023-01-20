@@ -169,7 +169,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def access_authority_check(self):
         try:
-            ShopManagement.objects.get(user_id=self.user_id, is_active=True)
+            ShopManagement.objects.filter(user_id=self.user_id, is_active=True).order_by("role")[0]
         except (Shop.DoesNotExist, ValidationError):
             return False
         except ShopManagement.DoesNotExist:
@@ -186,9 +186,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
             if manage.role != 0:
                 try:
                     shop = Shop.objects.get(id=str(self.shop_id))
-                    manage = \
-                        ShopManagement.objects.filter(user_id=self.user_id, is_active=True, shop=shop).order_by("role")[
-                            0]
+                    manage = ShopManagement.objects.filter(user_id=self.user_id, is_active=True, shop=shop).order_by("role")[0]
                 except:
                     return False
         except:
@@ -233,7 +231,7 @@ class ActionConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def access_authority_check(self):
         try:
-            ShopManagement.objects.get(user_id=self.user_id, is_active=True)
+            ShopManagement.objects.filter(user_id=self.user_id, is_active=True).order_by("role")[0]
         except (Shop.DoesNotExist, ValidationError):
             return False
         except ShopManagement.DoesNotExist:

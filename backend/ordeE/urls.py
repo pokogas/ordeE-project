@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from csrfprotect.views import CsrfView
 
 urlpatterns = [
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.jwt')),
     path('api/account/', include('Account.urls')),
+    path('api/csrf/', CsrfView),
     path('api/customer/', include('Customer.urls')),
     path('api/manage/', include('Manage.urls')),
     path('api/service/', include('Service.urls')),

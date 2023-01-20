@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'django-insecure-km&lg^7(wz$mnqf@s6-1zyl&3=8wr(p4xp)tbk6h*yf8b2k!_4
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'csrfprotect',
     'Account',
     'Manage',
     'Customer',
@@ -122,7 +121,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -229,6 +227,18 @@ if DEBUG:
         'http://0.0.0.0:3001',
         'http://192.168.0.5:3001',
     )
+    CORS_ALLOW_CREDENTIALS = True
+    CSRF_USE_SESIONS = False
+    CSRF_COOKIE_HTTPONLY = False
+    CSRF_COOKIE_SAMESITE = None
+    CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000',
+                            'http://localhost:3000',
+                            'http://0.0.0.0:3000',
+                            'http://192.168.0.5:3000',
+                            'http://127.0.0.1:3001',
+                            'http://localhost:3001',
+                            'http://0.0.0.0:3001',
+                            'http://192.168.0.5:3001', ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
